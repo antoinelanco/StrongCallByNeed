@@ -27,9 +27,8 @@ let t = T_ES(T_Var "x","x",T_Lambda("y",T_App(T_Var "y", T_App(id "z",T_Var "a")
 
 let () = Printf.printf "%s : \n\n" (sprint_terms t)
 
-
 let l = context t
 (* let () = Context.iter (fun x ->
     Printf.printf "%s -> %s\n" (sprint_terms x) (sprint_terms (eval x))) l *)
 
-let () = Context.iter (fun x -> Printf.printf "%s\n" (sprint_terms x) ) l
+let () = Context.iter (fun x -> Printf.printf "%s\n" (sprint_all x) ) l
