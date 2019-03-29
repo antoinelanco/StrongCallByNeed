@@ -30,8 +30,6 @@ let context w =
 
     | T_App (t1,t2) ->
 
-
-
       let r = Context.add (T_App(t1,t2),c) (aux phi true (C_AppG t2::c) t1) in
       begin
         match is_struct t1 with
@@ -75,6 +73,21 @@ let rec find_lambda c = function
   | T_ES(t1,x,t2) -> find_lambda (fun a -> c (T_ES(a,x,t2)) ) t1
   | _ -> None
 
+
+let rec assemble (t,cl) =
+
+  List.fold_right (fun i acc ->
+    match i with
+    | C_Lambda v -> T_Lambda(v,acc)
+    | C_AppG t' -> T_App(acc,t')
+    | C_AppD t' -> T_App(t',acc)
+    | C_ESG (v,t') -> T_ES(acc,v,t')
+    | C_ESD (t',v) -> T_ES(t',v,acc)
+    | C_HOLE -> acc
+    ) cl t
+
+
+
 let eval = function
   | T_App(t1,t2) ->
     begin
@@ -82,5 +95,11 @@ let eval = function
       | Some (f,T_Lambda(x,t)) -> f (T_ES(t,x,t2))
       | _ -> T_App(t1,t2)
     end
-  (* | ES(t1,x,t2) -> *)
+  | T_ES(t1,x,t2) -> (*Trouver [x] savoir si v est NF rempalcer [x] extraire L*)
+    let c_t1 = context t1 in
+    begin
+      match Context.find_first_opt (fun (i,_) -> i = T_Var x ) c_t1 with
+      | None -> T_ES(t1,x,t2)
+      | Some x' -> assemble (t2,snd x')
+    end
   | x -> x
