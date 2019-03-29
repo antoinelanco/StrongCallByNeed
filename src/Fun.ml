@@ -70,9 +70,17 @@ let context w =
   Context.map (fun (a,b) -> (a,List.rev b)) r
 
 
-
+let rec find_lambda c = function
+  | T_Lambda(v,t) -> Some (c,T_Lambda(v,t))
+  | T_ES(t1,x,t2) -> find_lambda (fun a -> c (T_ES(a,x,t2)) ) t1
+  | _ -> None
 
 let eval = function
-  | T_App(T_Lambda(x,t1),t2) -> T_ES(t1,x,t2)
+  | T_App(t1,t2) ->
+    begin
+      match find_lambda (fun i -> i) t1 with
+      | Some (f,T_Lambda(x,t)) -> f (T_ES(t,x,t2))
+      | _ -> T_App(t1,t2)
+    end
   (* | ES(t1,x,t2) -> *)
   | x -> x
