@@ -3,10 +3,10 @@ open Printer
 type var = string
 
 and terms =
-  | T_Lambda of var * terms (* λx.t *)
-  | T_App    of terms * terms (* t1 t2 *)
-  | T_Var    of var (* x *)
-  | T_ES     of terms * var * terms (* t[x/u] *)
+  | Lambda of var * terms (* λx.t *)
+  | App    of terms * terms (* t1 t2 *)
+  | Var    of var (* x *)
+  | ES     of terms * var * terms (* t[x/u] *)
 
 
 and context =
@@ -20,10 +20,10 @@ and context =
 and pair = terms * context list
 
 let rec sprint_terms = function
-  | T_Lambda(x,t) -> Printf.sprintf "λ%s.%s" x (sprint_terms t)
-  | T_App(t1,t2) -> Printf.sprintf "(%s) (%s)" (sprint_terms t1) (sprint_terms t2)
-  | T_Var(x) -> x
-  | T_ES(t1,x,t2) -> Printf.sprintf "(%s)[%s/%s]" (sprint_terms t1) x (sprint_terms t2)
+  | Lambda(x,t) -> Printf.sprintf "λ%s.%s" x (sprint_terms t)
+  | App(t1,t2) -> Printf.sprintf "(%s) (%s)" (sprint_terms t1) (sprint_terms t2)
+  | Var(x) -> x
+  | ES(t1,x,t2) -> Printf.sprintf "(%s)[%s/%s]" (sprint_terms t1) x (sprint_terms t2)
 
 let rec sprint_context = function
   | C_Lambda v -> Printf.sprintf "λ%s.◽" v

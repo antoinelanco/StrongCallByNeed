@@ -3,32 +3,36 @@ open Printf
 open Fun
 open Printer
 
-let id s = T_Lambda(s,T_Var s)
+let id s = Lambda(s,Var s)
 
-let t = T_App(T_Lambda("x",id "z"),T_Var("y"))
-let t = T_App(T_ES(T_Lambda("y",T_App(T_Var("y"),T_Var("x"))),"x",id "z"), id "z'")
+let t = App(Lambda("x",id "z"),Var("y"))
+let t = App(ES(Lambda("y",App(Var("y"),Var("x"))),"x",id "z"), id "z'")
 
-let t = T_Lambda("y",T_App(T_Var("y"),T_App(T_Lambda("x",T_Var("x")),T_Var("z"))))
-let t = T_App(T_Var("y"),T_App(T_Lambda("x",T_Var("x")),T_Var("z")))
+let t = Lambda("y",App(Var("y"),App(Lambda("x",Var("x")),Var("z"))))
+let t = App(Var("y"),App(Lambda("x",Var("x")),Var("z")))
 
-let t = T_App(
-    T_Lambda("x",
-           T_App(
-             T_App(T_Var "x",id "z"),
-             T_App(id "z'",T_Var "w")
+let t = App(
+    Lambda("x",
+           App(
+             App(Var "x",id "z"),
+             App(id "z'",Var "w")
            )),
-    T_Lambda("a",id "b")
+    Lambda("a",id "b")
   )
 
-let t = T_ES(T_Lambda("y",T_App(T_Var "y",T_Var "x")),"x",T_Var "z")
+let t = ES(Lambda("y",App(Var "y",Var "x")),"x",Var "z")
 
-let t = T_ES(T_Var "x","x",T_Lambda("y",T_App(T_Var "y", T_App(id "z",T_Var "a")     )))
+let t = ES(Var "x","x",Lambda("y",App(Var "y", App(id "z",Var "a")     )))
 
-let t = T_Lambda("x",T_App(T_Var "x",T_Var "x"))
+let t = Lambda("x",App(Var "x",Var "x"))
+
+let t = Lambda("a",ES(Lambda("x",App(Var "x", Var "x")),"x",id "y"))
+
 
 let () = Printf.printf "%s : \n\n" (sprint_terms t)
 
 let l = context t
 let () = Context.iter (fun (x,c) ->
     Printf.printf "%s -> %s\n\n" (sprint_all (x,c))
-      (sprint_terms (assemble ((eval x),c)) )) l
+      (print_tab (eval x) (fun z -> sprint_terms (assemble (z,c)) ))
+    ) l
