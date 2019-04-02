@@ -17,7 +17,7 @@ and context =
   | C_ESD    of terms * var (* t[x/◽] *)
   | C_HOLE (* ◽ *)
 
-and pair = terms * context list
+and pair = terms * context list * bool
 
 let rec sprint_terms = function
   | Lambda(x,t) -> Printf.sprintf "λ%s.%s" x (sprint_terms t)

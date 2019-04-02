@@ -31,8 +31,15 @@ let t = Lambda("a",ES(Lambda("x",App(Var "x", Var "x")),"x",id "y"))
 
 let () = Printf.printf "%s : \n\n" (sprint_terms t)
 
-let l = context t
-let () = Context.iter (fun (x,c) ->
-    Printf.printf "%s -> %s\n\n" (sprint_all (x,c))
-      (print_tab (eval x) (fun z -> sprint_terms (assemble (z,c)) ))
+let l = context false t
+let () = Context.iter (fun (x,c,at) ->
+    Printf.printf "%s:%b -> %s\n\n" (sprint_all (x,c)) at
+      (print_tab (eval at x) (fun z -> sprint_terms (assemble (z,c)) ))
     ) l
+
+
+let () = print_string "---------------------------\n"
+
+
+
+let () = Printf.printf "%b\n" (is_nf false t)
