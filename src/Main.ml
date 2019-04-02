@@ -29,6 +29,9 @@ let t = Lambda("x",App(Var "x",Var "x"))
 let t = Lambda("a",ES(Lambda("x",App(Var "x", Var "x")),"x",id "y"))
 
 
+
+let t = ES(Var "x","x",ES(id "z","a",Var "e"))
+
 let () = Printf.printf "%s : \n\n" (sprint_terms t)
 
 let l = context false t
@@ -41,5 +44,6 @@ let () = Context.iter (fun (x,c,at) ->
 let () = print_string "---------------------------\n"
 
 
+(* let t = Lambda("x",App(Var "x" ,App(id "y", Var "x")))
 
-let () = Printf.printf "%b\n" (is_nf false t)
+let () = Printf.printf "%b\n" (is_nf true t) *)

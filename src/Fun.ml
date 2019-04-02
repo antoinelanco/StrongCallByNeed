@@ -116,7 +116,7 @@ let rec eval at = function
         else (*Check t2 ∈ NF + Non-Determinisme*)
           List.map (fun (_,c,_) ->
 
-              ES(assemble (t2, c),x,t2))
+              cont (ES(assemble (term, c),x,term)))
 
             (Context.elements context_filter) (*ND*)
 
