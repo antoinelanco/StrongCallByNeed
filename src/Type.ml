@@ -17,7 +17,13 @@ and context =
   | C_ESD    of terms * var (* t[x/◽] *)
   | C_HOLE (* ◽ *)
 
-and pair = terms * context list * bool
+and full_context = terms * context list * bool
+
+
+and tree_terms =
+  | Node of terms * tree_terms list
+  | Leaf
+
 
 let rec sprint_terms = function
   | Lambda(x,t) -> Printf.sprintf "λ%s.%s" x (sprint_terms t)
@@ -35,3 +41,10 @@ let rec sprint_context = function
 
 let sprint_all (t,c) =
   Printf.sprintf "%s %s" (sprint_terms t) (print_tab c sprint_context)
+
+
+let rec sprint_tree parent = function
+  | Node (t,[]) -> Printf.sprintf "{\"name\":\"%s\",\"parent\":\"%s\"}" (sprint_terms t) parent
+  | Node (t,l)  -> Printf.sprintf "{\"name\":\"%s\",\"parent\":\"%s\",\"children\":[%s]}"
+                     (sprint_terms t) parent (String.concat "," (List.map (fun i -> sprint_tree (sprint_terms t) i ) l))
+  | Leaf -> ""

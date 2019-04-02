@@ -5,7 +5,7 @@ module Phi = Set.Make(String)
 module Context = Set.Make(
   struct
     let compare = Pervasives.compare
-    type t = pair
+    type t = full_context
   end)
 
 
@@ -105,7 +105,7 @@ let rec eval at = function
     let is_val = find_lambda (fun i -> i) t2 in
     begin
       match is_val with
-      | Some (cont,term) when is_nf at term -> (*t2 is NF*)
+      | Some (cont,term) when is_nf true term -> (*t2 is NF*) (* !!!!!!!!!!!!! *)
 
         (*eval all var*)
 
@@ -137,3 +137,17 @@ and is_nf at term =
       (List.map (fun z -> assemble(z,c) ) (eval at i)) @ acc) cont [] in
 
   not (List.exists (fun i -> i <> term) list_eval)
+
+
+
+
+
+let all_eval t =
+  let cont = context false t in
+  let list_eval = Context.fold (fun (i,c,at) acc ->
+      (List.map (fun z -> assemble(z,c) ) (eval at i)) @ acc) cont [] in
+  List.filter (fun i -> i <> t) list_eval
+
+
+let rec full_eval t =
+  Node (t,List.map (fun i -> full_eval i) (all_eval t))
