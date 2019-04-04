@@ -27,15 +27,15 @@ let t = ES(Lambda("y",App(Var "y",Var "x")),"x",Var "z")
 
 let t = ES(Var "x","x",Lambda("y",App(Var "y", App(id "z",Var "a")     )))
 
-let t = Lambda("x",App(Var "x",Var "x"))
+(* let t = Lambda("x",App(Var "x",Var "x")) *)
 
-let t = Lambda("a",ES(Lambda("x",App(Var "x", Var "x")),"x",id "y"))
+(* let t = ES(Var "x","x",Lambda("y",App(Var "y",App(id "a",Var "z"))))
 
-let t = ES(Var "x","x",Lambda("y",App(Var "y",App(id "a",Var "z"))))
-
-let t = ES(Lambda("y",App(App(Var "y", Var "x"), Var "x")),"x",id "a")
+let t = ES(Lambda("y",App(App(Var "y", Var "x"), Var "x")),"x",id "a") *)
 
 (* let t = ES(Var "x","x",ES(id "z","a",Var "e")) *)
+
+(* let t = Var "x" *)
 
 (* let () = Printf.printf "%s : \n\n" (sprint_terms t)
 
@@ -45,25 +45,20 @@ let () = Context.iter (fun (x,c,at) ->
       (print_tab (eval at x) (fun z -> sprint_terms (assemble (z,c)) ))
     ) l *)
 
-(* let t = Var "x" *)
 
 
+(* let () = List.iter (fun i -> Printf.printf "%s\n" (sprint_terms i)) (all_eval t) *)
+(* let () = Printf.printf "%s\n" (sprint_terms t) *)
 
+let () = Printf.printf "%s\n" (sprint_tree "" (full_eval t))
 
 
 
 
 let file = "treeData.json"
-let message = Printf.sprintf "[%s]\n" (sprint_tree "null" (full_eval t))
+let message = Printf.sprintf "[%s]\n" (sprint_tree_json "null" (full_eval t))
 
 let () =
-
   let oc = open_out file in
   fprintf oc "%s\n" message;
   close_out oc;
-
-  let ic = open_in file in
-  let line = input_line ic in  (* read line from in_channel and discard \n *)
-  print_endline line;          (* write the result to stdout *)
-  flush stdout;                (* write on the underlying device now *)
-  close_in ic                  (* close the input channel *)

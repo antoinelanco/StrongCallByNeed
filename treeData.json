@@ -1,2 +1,2 @@
-[{"name":"(λy.((y) (x)) (x))[x/λa.a]","parent":"null","children":[{"name":"(λy.((y) (λa.a)) (x))[x/λa.a]","parent":"(λy.((y) (x)) (x))[x/λa.a]","children":[{"name":"(λy.((y) (λa.a)) (λa.a))[x/λa.a]","parent":"(λy.((y) (λa.a)) (x))[x/λa.a]"}]},{"name":"(λy.((y) (x)) (λa.a))[x/λa.a]","parent":"(λy.((y) (x)) (x))[x/λa.a]","children":[{"name":"(λy.((y) (λa.a)) (λa.a))[x/λa.a]","parent":"(λy.((y) (x)) (λa.a))[x/λa.a]"}]}]}]
+[{"name":"(x)[x/λy.(y) ((λz.z) (a))]","parent":"null","children":[{"name":"(λy.(y) ((λz.z) (a)))[x/λy.(y) ((λz.z) (a))]","parent":"(x)[x/λy.(y) ((λz.z) (a))]","children":[{"name":"(λy.(y) ((z)[z/a]))[x/λy.(y) ((λz.z) (a))]","parent":"(λy.(y) ((λz.z) (a)))[x/λy.(y) ((λz.z) (a))]"}]}]}]
 
