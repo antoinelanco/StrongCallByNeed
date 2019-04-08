@@ -46,7 +46,7 @@ let sprint_all (t,c) =
 
   let rec sprint_tree tab = function
     | Node (t,l)  -> Printf.sprintf "%s%s\n\n%s" tab (sprint_terms t)
-                       (String.concat "" (List.map (sprint_tree (tab^"   ")) l))
+                       (String.concat "" (List.map (sprint_tree (tab^"|  ")) l))
     | Leaf -> ""
 
 let rec sprint_tree_json parent = function

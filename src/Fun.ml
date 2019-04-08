@@ -115,11 +115,8 @@ let rec eval at = function
         then [ES(t1,x,t2)]
         else (*Check t2 ∈ NF + Non-Determinisme*)
           List.map (fun (_,c,_) ->
-
               cont (ES(assemble (term, c),x,term)))
-
             (Context.elements context_filter) (*ND*)
-
 
       | _ -> [ES(t1,x,t2)] (*Pas val => pas de sub*)
 
@@ -130,16 +127,11 @@ let rec eval at = function
 
 
 and is_nf at term =
-
   let cont = context at term in
-
   let list_eval = Context.fold (fun (i,c,at) acc ->
       (List.map (fun z -> assemble(z,c) ) (eval at i)) @ acc) cont [] in
 
   not (List.exists (fun i -> i <> term) list_eval)
-
-
-
 
 
 let all_eval t =
@@ -149,5 +141,6 @@ let all_eval t =
   List.filter (fun i -> i <> t) list_eval
 
 
-let rec full_eval t =
-  Node (t,List.map (fun i -> full_eval i) (all_eval t))
+let rec full_eval n t =
+  if n <= 0 then Leaf else
+    Node (t,List.map (fun i -> full_eval (n-1) i) (all_eval t))
