@@ -1,4 +1,5 @@
 open Type
+open Aux
 
 module Phi = Set.Make(String)
 
@@ -143,4 +144,5 @@ let all_eval t =
 
 let rec full_eval n t =
   if n <= 0 then Leaf else
-    Node (t,List.map (fun i -> full_eval (n-1) i) (all_eval t))
+    let (t,_) = clear Bound.empty t in
+    Node (alpha t,List.map (fun i -> full_eval (n-1) i) (all_eval t))
