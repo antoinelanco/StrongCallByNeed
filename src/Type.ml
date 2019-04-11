@@ -50,7 +50,7 @@ let sprint_all (t,c) =
     | Leaf -> ""
 
 let rec sprint_tree_json parent = function
-  | Node (t,[]) -> Printf.sprintf "{\"name\":\"%s\",\"parent\":\"%s\"}" (sprint_terms t) parent
-  | Node (t,l)  -> Printf.sprintf "{\"name\":\"%s\",\"parent\":\"%s\",\"children\":[%s]}"
-                     (sprint_terms t) parent (String.concat "," (List.map (fun i -> sprint_tree_json (sprint_terms t) i ) l))
+  | Node (t,[]) -> Printf.sprintf "{\"name\":\"%s\"}" (sprint_terms t)
+  | Node (t,l)  -> Printf.sprintf "{\"name\":\"%s\",\"children\":[%s]}"
+                     (sprint_terms t) (String.concat "," (List.map (fun i -> sprint_tree_json (sprint_terms t) i ) l))
   | Leaf -> ""

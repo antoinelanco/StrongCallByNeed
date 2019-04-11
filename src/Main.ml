@@ -40,7 +40,7 @@ let t = ES(Var "x","x",ES(id "z","a",Var "e"))
 
 let t = Var "x"
 
-let t = App(Lambda("x",Lambda("y",App(Var "y",App(Var "x",Var "x")))),id "z")
+let t = App(Lambda("x",Lambda("y",App(App(Var "y",Var "x"),Var "x"))),id "x") (*Exemple clear + alpha*)
 
 let t = App(Lambda("y",Lambda("x",App(App(App(Var "x",Var "y"),Var"y"),Var "y"))),Lambda("a",App(Lambda("z",Lambda("w",Var "z")),Var "a")))
 
@@ -50,14 +50,11 @@ let t = App(id "a",id "a")
 
 let t = Lambda("a",Lambda("a",Lambda("a",Var "a")))
 
-let t = App(id "a",Lambda("a",App(Lambda("z",Lambda("w",Var "z")),Var "a")))
-
-let t = App(id "a",id "a") *)
+let t = App(id "a",Lambda("a",App(Lambda("z",Lambda("w",Var "z")),Var "a"))) *)
 
 
-(* let () = Printf.printf "%s\n\n" (sprint_terms (alpha t)) *)
 
-(* let (t,_) = clear Bound.empty t *)
+
 let () = Printf.printf "%s\n" (sprint_terms t)
 let () = Printf.printf "%s\n" (sprint_tree "" (full_eval step t))
 

@@ -146,3 +146,4 @@ let rec full_eval n t =
   if n <= 0 then Leaf else
     let (t,_) = clear Bound.empty t in
     Node (alpha t,List.map (fun i -> full_eval (n-1) i) (all_eval t))
+    (* Node (t,List.map (fun i -> full_eval (n-1) i) (all_eval t)) *)
